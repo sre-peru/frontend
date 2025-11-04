@@ -19,5 +19,5 @@ interface FilterOptionsResponse {
  */
 export const getFilterOptions = async (): Promise<FilterOptionsResponse> => {
   const response = await apiClient.get<ApiResponse<FilterOptionsResponse>>('/filters/options');
-  return response.data;
+  return (response as any).data;
 };

@@ -13,7 +13,7 @@ export const analyticsApi = {
     const response = await apiClient.get<ApiResponse<DashboardKPIs>>('/analytics/kpis', {
       params: filters,
     });
-    return response.data;
+    return (response as any).data;
   },
 
   /**
@@ -23,7 +23,7 @@ export const analyticsApi = {
     const response = await apiClient.get<ApiResponse<any>>('/analytics/time-series', {
       params: { granularity, ...filters },
     });
-    return response.data;
+    return (response as any).data;
   },
 
   /**
@@ -33,7 +33,7 @@ export const analyticsApi = {
     const response = await apiClient.get<ApiResponse<any>>('/analytics/impact-severity-matrix', {
       params: filters,
     });
-    return response.data;
+    return (response as any).data;
   },
 
   /**
@@ -43,7 +43,7 @@ export const analyticsApi = {
     const response = await apiClient.get<ApiResponse<any>>('/analytics/top-entities', {
       params: { limit, ...filters },
     });
-    return response.data;
+    return (response as any).data;
   },
 
   /**
@@ -53,7 +53,7 @@ export const analyticsApi = {
     const response = await apiClient.get<ApiResponse<any>>('/analytics/management-zones', {
       params: filters,
     });
-    return response.data;
+    return (response as any).data;
   },
 
   /**
@@ -63,7 +63,7 @@ export const analyticsApi = {
     const response = await apiClient.get<ApiResponse<any>>('/analytics/remediation-funnel', {
       params: filters,
     });
-    return response.data;
+    return (response as any).data;
   },
 
   /**
@@ -73,7 +73,7 @@ export const analyticsApi = {
     const response = await apiClient.get<ApiResponse<any>>('/analytics/duration-distribution', {
       params: filters,
     });
-    return response.data;
+    return (response as any).data;
   },
 
   /**
@@ -83,7 +83,7 @@ export const analyticsApi = {
     const response = await apiClient.get<ApiResponse<any>>('/analytics/evidence-types', {
       params: filters,
     });
-    return response.data;
+    return (response as any).data;
   },
 
   /**
@@ -93,7 +93,7 @@ export const analyticsApi = {
     const response = await apiClient.get<ApiResponse<any>>('/analytics/root-cause-analysis', {
       params: filters,
     });
-    return response.data;
+    return (response as any).data;
   },
 
   /**
@@ -103,6 +103,6 @@ export const analyticsApi = {
     const response = await apiClient.get<ApiResponse<any>>('/analytics/root-cause-distribution', {
       params: filters,
     });
-    return response.data;
+    return (response as any).data;
   },
 };

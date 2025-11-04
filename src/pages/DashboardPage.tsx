@@ -13,7 +13,6 @@ import PieChart from '@/components/charts/PieChart';
 import Card, { CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import Spinner from '@/components/ui/Spinner';
 import { formatDuration } from '@/lib/utils/date.utils';
-import { DURATION_CATEGORIES } from '@/lib/constants';
 
 const DashboardPage: React.FC = () => {
   const { filters } = useFiltersStore();

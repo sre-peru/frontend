@@ -28,7 +28,7 @@ export const problemsApi = {
         indexes: null, // Use array format: ?status=OPEN&status=CLOSED
       },
     });
-    return response.data;
+    return (response as any).data;
   },
 
   /**
@@ -36,7 +36,7 @@ export const problemsApi = {
    */
   getProblemById: async (problemId: string): Promise<Problem> => {
     const response = await apiClient.get<ApiResponse<{ problem: Problem }>>(`/problems/${problemId}`);
-    return response.data.problem;
+    return (response as any).data.problem;
   },
 
   /**
@@ -47,7 +47,7 @@ export const problemsApi = {
       `/problems/${problemId}/status`,
       { status }
     );
-    return response.data.problem;
+    return (response as any).data.problem;
   },
 
   /**
@@ -58,7 +58,7 @@ export const problemsApi = {
       `/problems/${problemId}/comments`,
       { content }
     );
-    return response.data.problem;
+    return (response as any).data.problem;
   },
 
   /**
@@ -66,6 +66,6 @@ export const problemsApi = {
    */
   getFilterOptions: async (): Promise<FilterOptions> => {
     const response = await apiClient.get<ApiResponse<FilterOptions>>('/filters/options');
-    return response.data;
+    return (response as any).data;
   },
 };

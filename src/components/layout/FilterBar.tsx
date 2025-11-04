@@ -31,31 +31,6 @@ const ROOT_CAUSE_OPTIONS = [
   { value: 'false', label: 'False' },
 ];
 
-// Helper functions for date formatting
-const formatDateToISO = (ddmmyyyy: string): string => {
-  if (!ddmmyyyy) return '';
-  const parts = ddmmyyyy.split('/');
-  if (parts.length !== 3) return '';
-  const [day, month, year] = parts;
-  if (!day || !month || !year) return '';
-  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-};
-
-const formatDateToDDMMYYYY = (isoDate: string): string => {
-  if (!isoDate) return '';
-  const parts = isoDate.split('-');
-  if (parts.length !== 3) return '';
-  const [year, month, day] = parts;
-  if (!year || !month || !day) return '';
-  return `${day}/${month}/${year}`;
-};
-
-const validateDateFormat = (date: string): boolean => {
-  if (!date) return true; // Empty is valid
-  const regex = /^\d{2}\/\d{2}\/\d{4}$/;
-  return regex.test(date);
-};
-
 const FilterBar: React.FC = () => {
   const { filters, setFilters, clearFilters, getActiveFilterCount } = useFiltersStore();
   const [isExpanded, setIsExpanded] = useState(false);

@@ -91,6 +91,7 @@ export interface Problem {
   problemFilters: string[];
   startTime: string;
   endTime: string;
+  duration: number;
   evidenceDetails: EvidenceDetails;
   recentComments: RecentComments;
   impactAnalysis: ImpactAnalysis;
@@ -109,6 +110,7 @@ export interface ProblemFilters {
   durationMax?: number;
   hasComments?: boolean;
   hasGitHubActions?: boolean;
+  hasRootCause?: boolean | null;
   evidenceType?: string[];
   search?: string;
 }
