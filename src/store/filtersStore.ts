@@ -17,24 +17,9 @@ interface FiltersState {
   resetToDefaultFilters: () => void;
 }
 
-// Get date from 7 days ago
-const getLastWeekDate = () => {
-  const date = new Date();
-  date.setDate(date.getDate() - 7);
-  return date.toISOString().split('T')[0];
-};
+const getDefaultFilters = (): ProblemFilters => ({});
 
-// Get today's date
-const getTodayDate = () => {
-  return new Date().toISOString().split('T')[0];
-};
-
-const getDefaultFilters = (): ProblemFilters => ({
-  dateFrom: getLastWeekDate(),
-  dateTo: getTodayDate(),
-});
-
-// Start with default filters (last week)
+// Start with empty filters
 const initialFilters: ProblemFilters = getDefaultFilters();
 
 export const useFiltersStore = create<FiltersState>()(
