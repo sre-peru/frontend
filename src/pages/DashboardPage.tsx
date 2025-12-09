@@ -10,6 +10,7 @@ import KPICard from '@/components/dashboard/KPICard';
 import TimeSeriesChart from '@/components/charts/TimeSeriesChart';
 import HeatmapChart from '@/components/charts/HeatmapChart';
 import PieChart from '@/components/charts/PieChart';
+import DoughnutChart from '@/components/charts/DoughnutChart';
 import Card, { CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import Spinner from '@/components/ui/Spinner';
 import { formatDuration } from '@/lib/utils/date.utils';
@@ -20,6 +21,9 @@ const DashboardPage: React.FC = () => {
   const [timeSeriesData, setTimeSeriesData] = useState<any>(null);
   const [matrixData, setMatrixData] = useState<any>(null);
   const [durationData, setDurationData] = useState<any>(null);
+  const [impactDistribution, setImpactDistribution] = useState<any>(null);
+  const [severityDistribution, setSeverityDistribution] = useState<any>(null);
+  const [hasRootCauseDistribution, setHasRootCauseDistribution] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,17 +33,31 @@ const DashboardPage: React.FC = () => {
         setIsLoading(true);
         setError(null);
         
-        const [kpisRes, timeSeriesRes, matrixRes, durationRes] = await Promise.all([
+        const [
+          kpisRes, 
+          timeSeriesRes, 
+          matrixRes, 
+          durationRes,
+          impactDistRes,
+          severityDistRes,
+          hasRootCauseDistRes
+        ] = await Promise.all([
           analyticsApi.getKPIs(filters),
           analyticsApi.getTimeSeries('day', filters),
           analyticsApi.getImpactSeverityMatrix(filters),
           analyticsApi.getDurationDistribution(filters),
+          analyticsApi.getImpactDistribution(filters),
+          analyticsApi.getSeverityDistribution(filters),
+          analyticsApi.getHasRootCauseDistribution(filters),
         ]);
 
         setKpis(kpisRes);
         setTimeSeriesData(timeSeriesRes);
         setMatrixData(matrixRes);
         setDurationData(durationRes);
+        setImpactDistribution(impactDistRes);
+        setSeverityDistribution(severityDistRes);
+        setHasRootCauseDistribution(hasRootCauseDistRes);
       } catch (error) {
         console.error('Failed to fetch dashboard data:', error);
         setError('Error al cargar los datos. Por favor, verifica que el backend esté corriendo en el puerto 3000.');
@@ -190,6 +208,54 @@ const DashboardPage: React.FC = () => {
           </CardHeader>
           <CardContent>
             <PieChart data={durationPieData} />
+          </CardContent>
+        </Card>
+
+        {/* Impact Distribution */}
+        <Card variant="glass">
+          <CardHeader>
+            <CardTitle>Tipo Impacto</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {impactDistribution && (
+              <DoughnutChart 
+                data={impactDistribution.data} 
+                title="Impact Distribution"
+                colors={['#5470c6', '#91cc75', '#525f7a', '#fc8452']} // Blue, Green, Gray, Orange
+              />
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Severity Distribution */}
+        <Card variant="glass">
+          <CardHeader>
+            <CardTitle>Tipo Severidad</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {severityDistribution && (
+              <DoughnutChart 
+                data={severityDistribution.data} 
+                title="Severity Distribution"
+                colors={['#5470c6', '#91cc75', '#525f7a', '#fc8452', '#73c0de', '#fac858']} // Blue, Green, Gray, Orange, Light Blue, Yellow
+              />
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Has Root Cause Distribution */}
+        <Card variant="glass">
+          <CardHeader>
+            <CardTitle>Tiene Causa Raíz</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {hasRootCauseDistribution && (
+              <DoughnutChart 
+                data={hasRootCauseDistribution.data} 
+                title="Root Cause Existence"
+                colors={['#5470c6', '#91cc75']} // Blue for "Sí", Green for "No"
+              />
+            )}
           </CardContent>
         </Card>
       </div>

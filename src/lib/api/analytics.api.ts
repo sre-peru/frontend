@@ -105,4 +105,34 @@ export const analyticsApi = {
     });
     return (response as any).data;
   },
+
+  /**
+   * Get impact level distribution (doughnut chart)
+   */
+  getImpactDistribution: async (filters?: ProblemFilters) => {
+    const response = await apiClient.get<ApiResponse<any>>('/analytics/impact-distribution', {
+      params: filters,
+    });
+    return (response as any).data;
+  },
+
+  /**
+   * Get severity level distribution (doughnut chart)
+   */
+  getSeverityDistribution: async (filters?: ProblemFilters) => {
+    const response = await apiClient.get<ApiResponse<any>>('/analytics/severity-distribution', {
+      params: filters,
+    });
+    return (response as any).data;
+  },
+
+  /**
+   * Get root cause existence distribution (doughnut chart)
+   */
+  getHasRootCauseDistribution: async (filters?: ProblemFilters) => {
+    const response = await apiClient.get<ApiResponse<any>>('/analytics/has-root-cause-distribution', {
+      params: filters,
+    });
+    return (response as any).data;
+  },
 };
