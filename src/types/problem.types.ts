@@ -111,6 +111,8 @@ export interface ProblemFilters {
   hasComments?: boolean;
   hasGitHubActions?: boolean;
   hasRootCause?: boolean | null;
+  autoremediado?: boolean | null;
+  funcionoAutoRemediacion?: boolean | null;
   evidenceType?: string[];
   search?: string;
 }

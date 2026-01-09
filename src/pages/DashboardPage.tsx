@@ -24,6 +24,7 @@ const DashboardPage: React.FC = () => {
   const [impactDistribution, setImpactDistribution] = useState<any>(null);
   const [severityDistribution, setSeverityDistribution] = useState<any>(null);
   const [hasRootCauseDistribution, setHasRootCauseDistribution] = useState<any>(null);
+  const [autoremediadoDistribution, setAutoremediadoDistribution] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -40,7 +41,8 @@ const DashboardPage: React.FC = () => {
           durationRes,
           impactDistRes,
           severityDistRes,
-          hasRootCauseDistRes
+          hasRootCauseDistRes,
+          autoremediadoDistRes
         ] = await Promise.all([
           analyticsApi.getKPIs(filters),
           analyticsApi.getTimeSeries('day', filters),
@@ -49,6 +51,7 @@ const DashboardPage: React.FC = () => {
           analyticsApi.getImpactDistribution(filters),
           analyticsApi.getSeverityDistribution(filters),
           analyticsApi.getHasRootCauseDistribution(filters),
+          analyticsApi.getAutoremediadoDistribution(filters),
         ]);
 
         setKpis(kpisRes);
@@ -58,6 +61,7 @@ const DashboardPage: React.FC = () => {
         setImpactDistribution(impactDistRes);
         setSeverityDistribution(severityDistRes);
         setHasRootCauseDistribution(hasRootCauseDistRes);
+        setAutoremediadoDistribution(autoremediadoDistRes);
       } catch (error) {
         console.error('Failed to fetch dashboard data:', error);
         setError('Error al cargar los datos. Por favor, verifica que el backend esté corriendo en el puerto 3000.');
@@ -254,6 +258,21 @@ const DashboardPage: React.FC = () => {
                 data={hasRootCauseDistribution.data} 
                 title="Root Cause Existence"
                 colors={['#5470c6', '#91cc75']} // Blue for "Sí", Green for "No"
+              />
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Autoremediado Distribution */}
+        <Card variant="glass">
+          <CardHeader>
+            <CardTitle>Problemas Autoremediados</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {autoremediadoDistribution && (
+              <PieChart 
+                data={autoremediadoDistribution.data} 
+                title="Autoremediado"
               />
             )}
           </CardContent>

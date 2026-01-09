@@ -135,4 +135,14 @@ export const analyticsApi = {
     });
     return (response as any).data;
   },
+
+  /**
+   * Get autoremediado distribution (pie chart)
+   */
+  getAutoremediadoDistribution: async (filters?: ProblemFilters) => {
+    const response = await apiClient.get<ApiResponse<any>>('/analytics/autoremediado-distribution', {
+      params: filters,
+    });
+    return (response as any).data;
+  },
 };

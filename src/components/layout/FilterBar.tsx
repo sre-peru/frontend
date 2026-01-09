@@ -31,6 +31,18 @@ const ROOT_CAUSE_OPTIONS = [
   { value: 'false', label: 'False' },
 ];
 
+const AUTOREMEDIADO_OPTIONS = [
+  { value: 'all', label: 'Todos' },
+  { value: 'true', label: 'Si' },
+  { value: 'false', label: 'No' },
+];
+
+const FUNCIONO_AUTOREMEDIACION_OPTIONS = [
+  { value: 'all', label: 'Todos' },
+  { value: 'true', label: 'Si' },
+  { value: 'false', label: 'No' },
+];
+
 const FilterBar: React.FC = () => {
   const { filters, setFilters, clearFilters, getActiveFilterCount } = useFiltersStore();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -43,6 +55,8 @@ const FilterBar: React.FC = () => {
     impactLevel: '',
     search: '',
     hasRootCause: 'all',
+    autoremediado: 'all',
+    funcionoAutoRemediacion: 'all',
     durationMin: '',
     durationMax: '',
   });
@@ -56,6 +70,8 @@ const FilterBar: React.FC = () => {
       impactLevel: filters.impactLevel?.[0] || '',
       search: filters.search || '',
       hasRootCause: filters.hasRootCause === true ? 'true' : filters.hasRootCause === false ? 'false' : 'all',
+      autoremediado: filters.autoremediado === true ? 'true' : filters.autoremediado === false ? 'false' : 'all',
+      funcionoAutoRemediacion: filters.funcionoAutoRemediacion === true ? 'true' : filters.funcionoAutoRemediacion === false ? 'false' : 'all',
       durationMin: filters.durationMin?.toString() || '',
       durationMax: filters.durationMax?.toString() || '',
     });
@@ -83,6 +99,12 @@ const FilterBar: React.FC = () => {
     if (tempFilters.hasRootCause !== 'all') {
       newFilters.hasRootCause = tempFilters.hasRootCause === 'true';
     }
+    if (tempFilters.autoremediado !== 'all') {
+      newFilters.autoremediado = tempFilters.autoremediado === 'true';
+    }
+    if (tempFilters.funcionoAutoRemediacion !== 'all') {
+      newFilters.funcionoAutoRemediacion = tempFilters.funcionoAutoRemediacion === 'true';
+    }
     if (tempFilters.durationMin) {
       newFilters.durationMin = Number(tempFilters.durationMin);
     }
@@ -102,6 +124,8 @@ const FilterBar: React.FC = () => {
       impactLevel: '',
       search: '',
       hasRootCause: 'all',
+      autoremediado: 'all',
+      funcionoAutoRemediacion: 'all',
       durationMin: '',
       durationMax: '',
     });
@@ -275,6 +299,42 @@ const FilterBar: React.FC = () => {
                   className="w-full"
                   min="0"
                 />
+              </div>
+
+              {/* Autoremediado Filter */}
+              <div className="space-y-2">
+                <label className="text-xs font-medium text-muted-foreground">
+                  ¿Autoremediado?
+                </label>
+                <select
+                  value={tempFilters.autoremediado}
+                  onChange={(e) => setTempFilters({ ...tempFilters, autoremediado: e.target.value })}
+                  className="w-full px-3 py-2 rounded-lg bg-gray-800 border border-gray-600 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 [&>option]:bg-white [&>option]:text-gray-900"
+                >
+                  {AUTOREMEDIADO_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* FuncionoAutoremediacion Filter */}
+              <div className="space-y-2">
+                <label className="text-xs font-medium text-muted-foreground">
+                  ¿Funciono el Autoremediado?
+                </label>
+                <select
+                  value={tempFilters.funcionoAutoRemediacion}
+                  onChange={(e) => setTempFilters({ ...tempFilters, funcionoAutoRemediacion: e.target.value })}
+                  className="w-full px-3 py-2 rounded-lg bg-gray-800 border border-gray-600 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 [&>option]:bg-white [&>option]:text-gray-900"
+                >
+                  {FUNCIONO_AUTOREMEDIACION_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 
