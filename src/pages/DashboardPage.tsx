@@ -8,6 +8,7 @@ import { DashboardKPIs } from '@/types/problem.types';
 import { useFiltersStore } from '@/store/filtersStore';
 import KPICard from '@/components/dashboard/KPICard';
 import TimeSeriesChart from '@/components/charts/TimeSeriesChart';
+import TimeSeriesBarChart from '@/components/charts/TimeSeriesBarChart';
 import HeatmapChart from '@/components/charts/HeatmapChart';
 import PieChart from '@/components/charts/PieChart';
 import DoughnutChart from '@/components/charts/DoughnutChart';
@@ -25,6 +26,8 @@ const DashboardPage: React.FC = () => {
   const [severityDistribution, setSeverityDistribution] = useState<any>(null);
   const [hasRootCauseDistribution, setHasRootCauseDistribution] = useState<any>(null);
   const [autoremediadoDistribution, setAutoremediadoDistribution] = useState<any>(null);
+  const [autoremediationTimeSeries, setAutoremediationTimeSeries] = useState<any>(null);
+  const [avgResolutionTimeSeries, setAvgResolutionTimeSeries] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -42,7 +45,9 @@ const DashboardPage: React.FC = () => {
           impactDistRes,
           severityDistRes,
           hasRootCauseDistRes,
-          autoremediadoDistRes
+          autoremediadoDistRes,
+          autoremediationTimeSeriesRes,
+          avgResolutionTimeSeriesRes
         ] = await Promise.all([
           analyticsApi.getKPIs(filters),
           analyticsApi.getTimeSeries('day', filters),
@@ -52,6 +57,8 @@ const DashboardPage: React.FC = () => {
           analyticsApi.getSeverityDistribution(filters),
           analyticsApi.getHasRootCauseDistribution(filters),
           analyticsApi.getAutoremediadoDistribution(filters),
+          analyticsApi.getAutoremediationTimeSeries('day', filters),
+          analyticsApi.getAverageResolutionTimeTimeSeries('day', filters),
         ]);
 
         setKpis(kpisRes);
@@ -62,6 +69,8 @@ const DashboardPage: React.FC = () => {
         setSeverityDistribution(severityDistRes);
         setHasRootCauseDistribution(hasRootCauseDistRes);
         setAutoremediadoDistribution(autoremediadoDistRes);
+        setAutoremediationTimeSeries(autoremediationTimeSeriesRes);
+        setAvgResolutionTimeSeries(avgResolutionTimeSeriesRes);
       } catch (error) {
         console.error('Failed to fetch dashboard data:', error);
         setError('Error al cargar los datos. Por favor, verifica que el backend esté corriendo en el puerto 3000.');
@@ -273,6 +282,38 @@ const DashboardPage: React.FC = () => {
               <PieChart 
                 data={autoremediadoDistribution.data} 
                 title="Autoremediado"
+              />
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Autoremediation Time Series */}
+        <Card variant="glass">
+          <CardHeader>
+            <CardTitle>Cantidad de Autoremediación</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {autoremediationTimeSeries && (
+              <TimeSeriesBarChart 
+                data={autoremediationTimeSeries.data} 
+                valueKey="count"
+                seriesName="Autoremediaciones"
+              />
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Average Resolution Time Series */}
+        <Card variant="glass">
+          <CardHeader>
+            <CardTitle>Tiempo de Respuesta Prom.</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {avgResolutionTimeSeries && (
+              <TimeSeriesBarChart 
+                data={avgResolutionTimeSeries.data} 
+                valueKey="avgResolutionTime"
+                seriesName="Tiempo Promedio (min)"
               />
             )}
           </CardContent>

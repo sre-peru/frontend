@@ -145,4 +145,24 @@ export const analyticsApi = {
     });
     return (response as any).data;
   },
+
+  /**
+   * Get autoremediation time series
+   */
+  getAutoremediationTimeSeries: async (granularity: 'day' | 'week' | 'month' = 'day', filters?: ProblemFilters) => {
+    const response = await apiClient.get<ApiResponse<any>>('/analytics/autoremediation-timeseries', {
+      params: { granularity, ...filters },
+    });
+    return (response as any).data;
+  },
+
+  /**
+   * Get average resolution time series
+   */
+  getAverageResolutionTimeTimeSeries: async (granularity: 'day' | 'week' | 'month' = 'day', filters?: ProblemFilters) => {
+    const response = await apiClient.get<ApiResponse<any>>('/analytics/avg-resolution-timeseries', {
+      params: { granularity, ...filters },
+    });
+    return (response as any).data;
+  },
 };

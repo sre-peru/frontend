@@ -79,23 +79,19 @@ const FilterBar: React.FC = () => {
 
   const handleApplyFilters = () => {
     const newFilters: any = {};
-    
-    // Date filters (already in YYYY-MM-DD format from date input)
-    if (tempFilters.dateFrom) {
-      newFilters.dateFrom = tempFilters.dateFrom;
-    }
-    if (tempFilters.dateTo) {
-      newFilters.dateTo = tempFilters.dateTo;
-    }
-    if (tempFilters.severityLevel) {
-      newFilters.severityLevel = [tempFilters.severityLevel];
-    }
-    if (tempFilters.impactLevel) {
-      newFilters.impactLevel = [tempFilters.impactLevel];
-    }
-    if (tempFilters.search) {
-      newFilters.search = tempFilters.search;
-    }
+
+    // Date filters
+    if (tempFilters.dateFrom) newFilters.dateFrom = tempFilters.dateFrom;
+    if (tempFilters.dateTo) newFilters.dateTo = tempFilters.dateTo;
+
+    // Select filters
+    if (tempFilters.severityLevel) newFilters.severityLevel = [tempFilters.severityLevel];
+    if (tempFilters.impactLevel) newFilters.impactLevel = [tempFilters.impactLevel];
+
+    // Text search
+    if (tempFilters.search) newFilters.search = tempFilters.search;
+
+    // Boolean/tri-state filters
     if (tempFilters.hasRootCause !== 'all') {
       newFilters.hasRootCause = tempFilters.hasRootCause === 'true';
     }
@@ -105,19 +101,18 @@ const FilterBar: React.FC = () => {
     if (tempFilters.funcionoAutoRemediacion !== 'all') {
       newFilters.funcionoAutoRemediacion = tempFilters.funcionoAutoRemediacion === 'true';
     }
-    if (tempFilters.durationMin) {
-      newFilters.durationMin = Number(tempFilters.durationMin);
-    }
-    if (tempFilters.durationMax) {
-      newFilters.durationMax = Number(tempFilters.durationMax);
-    }
 
+    // Numeric filters
+    if (tempFilters.durationMin) newFilters.durationMin = Number(tempFilters.durationMin);
+    if (tempFilters.durationMax) newFilters.durationMax = Number(tempFilters.durationMax);
+
+    // Overwrite the existing filters with the new set
     setFilters(newFilters);
     console.log('Filtros aplicados:', newFilters);
   };
 
   const handleClearFilters = () => {
-    setTempFilters({
+    const defaultTempFilters = {
       dateFrom: '',
       dateTo: '',
       severityLevel: '',
@@ -128,8 +123,9 @@ const FilterBar: React.FC = () => {
       funcionoAutoRemediacion: 'all',
       durationMin: '',
       durationMax: '',
-    });
-    clearFilters();
+    };
+    setTempFilters(defaultTempFilters);
+    clearFilters(); // This already sets filters to {}
   };
 
   const activeFilters = getActiveFilterCount();
@@ -208,6 +204,10 @@ const FilterBar: React.FC = () => {
                   onChange={(e) => setTempFilters({ ...tempFilters, severityLevel: e.target.value })}
                   className="w-full px-3 py-2 rounded-lg bg-gray-800 border border-gray-600 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 [&>option]:bg-white [&>option]:text-gray-900"
                 >
+                
+                
+                
+                
                   <option value="">Todas</option>
                   {SEVERITY_LEVELS.map((level) => (
                     <option key={level} value={level}>

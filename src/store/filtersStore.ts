@@ -37,12 +37,7 @@ export const useFiltersStore = create<FiltersState>()(
       },
 
       setFilters: (newFilters) => {
-        set((state) => ({
-          filters: {
-            ...state.filters,
-            ...newFilters,
-          },
-        }));
+        set({ filters: newFilters });
       },
 
       clearFilters: () => {
