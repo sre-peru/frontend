@@ -10,6 +10,7 @@ import LoginPage from '@/pages/LoginPage';
 import DashboardPage from '@/pages/DashboardPage';
 import ProblemsPage from '@/pages/ProblemsPage';
 import AnalyticsPage from '@/pages/AnalyticsPage';
+import FalsePositivesPage from '@/pages/FalsePositivesPage';
 
 const App: React.FC = () => {
   return (
@@ -41,6 +42,7 @@ const App: React.FC = () => {
           <Route path="dashboard" element={<DashboardPage />} />
           <Route path="analytics" element={<AnalyticsPage />} />
           <Route path="problems" element={<ProblemsPage />} />
+          <Route path="false-positives" element={<FalsePositivesPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
