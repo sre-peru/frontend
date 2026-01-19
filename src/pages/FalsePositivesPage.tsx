@@ -84,25 +84,6 @@ const ClassificationBadge: React.FC<{ type: string; count: number }> = ({ type, 
   );
 };
 
-const RecommendationCard: React.FC<{ recommendation: string; index: number }> = ({ recommendation, index }) => {
-  const isWarning = recommendation.includes('⚠️') || recommendation.includes('CRÍTICO') || recommendation.includes('ALTO');
-  const isInfo = recommendation.includes('ℹ️') || recommendation.includes('MODERADO');
-  const isGood = recommendation.includes('✅') || recommendation.includes('BUENO');
-
-  const bgColor = isWarning ? 'bg-red-500/10 border-red-500/30' 
-    : isInfo ? 'bg-yellow-500/10 border-yellow-500/30' 
-    : isGood ? 'bg-green-500/10 border-green-500/30'
-    : 'bg-blue-500/10 border-blue-500/30';
-
-  return (
-    <div className={`p-4 rounded-lg border ${bgColor}`}>
-      <div className="flex items-start gap-3">
-        <span className="text-lg font-bold text-muted-foreground">#{index + 1}</span>
-        <p className="text-sm">{recommendation}</p>
-      </div>
-    </div>
-  );
-};
 
 // =============================================================================
 // MAIN COMPONENT
@@ -173,7 +154,7 @@ const FalsePositivesPage: React.FC = () => {
     );
   }
 
-  const { summary, recommendations } = data;
+  const { summary } = data;
 
   // Prepare chart data
   const classificationPieData = [
@@ -192,10 +173,6 @@ const FalsePositivesPage: React.FC = () => {
     count: count as number,
   }));
 
-  const reasonBarData = Object.entries(summary.byReason || {}).map(([reason, count]) => ({
-    name: reason.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase()),
-    count: count as number,
-  })).sort((a, b) => b.count - a.count).slice(0, 6);
 
   const fpRatePercent = (summary.falsePositiveRate * 100).toFixed(1);
   const autoRemRate = (summary.autoRemediationRate * 100).toFixed(1);
