@@ -14,6 +14,8 @@ import PieChart from '@/components/charts/PieChart';
 import DoughnutChart from '@/components/charts/DoughnutChart';
 import Card, { CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import Spinner from '@/components/ui/Spinner';
+import ProblemsAnalyzer from '@/components/charts/ProblemsAnalyzer';
+import ProblemsAnalyzerV2 from '@/components/charts/ProblemsAnalyzerV2';
 import { formatDuration } from '@/lib/utils/date.utils';
 
 const DashboardPage: React.FC = () => {
@@ -318,6 +320,16 @@ const DashboardPage: React.FC = () => {
             )}
           </CardContent>
         </Card>
+      </div>
+
+      {/* Problems Analyzer - Hierarchical Sunburst */}
+      <div className="mt-6">
+        <ProblemsAnalyzer />
+      </div>
+
+      {/* Problems Analyzer V2 - Optimized Hierarchical Dashboard */}
+      <div className="mt-6">
+        <ProblemsAnalyzerV2 />
       </div>
     </div>
   );

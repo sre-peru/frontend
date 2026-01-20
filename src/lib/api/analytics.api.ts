@@ -165,4 +165,14 @@ export const analyticsApi = {
     });
     return (response as any).data;
   },
+
+  /**
+   * Get problems hierarchy for sunburst chart
+   */
+  getProblemsHierarchy: async (filters?: ProblemFilters) => {
+    const response = await apiClient.get<ApiResponse<any>>('/analytics/problems-hierarchy', {
+      params: filters,
+    });
+    return (response as any).data;
+  },
 };
