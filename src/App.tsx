@@ -11,6 +11,7 @@ import DashboardPage from '@/pages/DashboardPage';
 import ProblemsPage from '@/pages/ProblemsPage';
 import AnalyticsPage from '@/pages/AnalyticsPage';
 import FalsePositivesPage from '@/pages/FalsePositivesPage';
+import { DowntimePage } from '@/pages/DowntimePage';
 
 const App: React.FC = () => {
   return (
@@ -43,6 +44,7 @@ const App: React.FC = () => {
           <Route path="analytics" element={<AnalyticsPage />} />
           <Route path="problems" element={<ProblemsPage />} />
           <Route path="false-positives" element={<FalsePositivesPage />} />
+          <Route path="downtime" element={<DowntimePage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/dashboard" replace />} />

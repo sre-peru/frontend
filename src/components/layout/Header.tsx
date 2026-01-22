@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { LogOut, User, Activity, BarChart3, AlertCircle, AlertTriangle } from 'lucide-react';
+import { LogOut, User, Activity, BarChart3, AlertCircle, AlertTriangle, Clock } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import Button from '@/components/ui/Button';
 import { cn } from '@/lib/utils/cn';
@@ -56,6 +56,19 @@ const Header: React.FC = () => {
           >
             <BarChart3 className="w-4 h-4" />
             <span className="text-sm font-medium">Analytics</span>
+          </Link>
+          
+          <Link
+            to="/downtime"
+            className={cn(
+              'flex items-center gap-2 px-4 py-2 rounded-lg transition-colors',
+              location.pathname === '/downtime'
+                ? 'bg-orange-500/20 text-orange-400'
+                : 'hover:bg-white/5 text-muted-foreground'
+            )}
+          >
+            <Clock className="w-4 h-4" />
+            <span className="text-sm font-medium">Downtime</span>
           </Link>
           
           <Link
