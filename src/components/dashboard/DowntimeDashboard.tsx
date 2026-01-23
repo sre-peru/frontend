@@ -6,7 +6,8 @@ import { format } from 'date-fns';
 const MONTH_NAMES: Record<string, string> = {
   '09': 'Septiembre',
   '10': 'Octubre',
-  '11': 'Noviembre'
+  '11': 'Noviembre',
+  '12': 'Diciembre'
 };
 
 const SEVERITY_COLORS: Record<string, string> = {
@@ -30,7 +31,7 @@ export const DowntimeDashboard: React.FC = () => {
         
         // Try to fetch from API first
         try {
-          const stats = await downtimeApi.getDowntimeStats('2025-09-01', '2025-12-01');
+          const stats = await downtimeApi.getDowntimeStats('2025-09-01', '2025-12-31');
           console.log('📊 Downtime data received:', stats);
           
           if (stats.totalProblems > 0) {
@@ -326,7 +327,7 @@ export const DowntimeDashboard: React.FC = () => {
           📊 Dashboard de Indisponibilidad Real
         </h1>
         <p className="text-gray-400">
-          Septiembre - Noviembre 2025
+          Septiembre - Diciembre 2025
         </p>
       </div>
 
