@@ -4,14 +4,14 @@
 import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import { ApiError } from '@/types/api.types';
 
-const BASE_URL = (import.meta as any).env?.VITE_API_URL || '/api/v1';
+// Use relative path for API calls - Vercel rewrites will handle routing to backend
+const API_BASE_URL = '/api/v1';
 
 /**
  * Create axios instance
  */
-const apiClient: AxiosInstance = axios.create({
-  baseURL: BASE_URL,
-  timeout: 30000,
+export const apiClient: AxiosInstance = axios.create({
+  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
