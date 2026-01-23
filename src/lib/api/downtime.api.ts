@@ -3,7 +3,8 @@
  */
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api/v1';
+// Use relative path - Vite proxy (local) and Vercel rewrite (prod) handle the routing
+const API_BASE_URL = '/api/v1';
 
 export interface SeverityStats {
   count: number;
