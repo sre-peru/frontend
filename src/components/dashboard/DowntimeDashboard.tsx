@@ -246,14 +246,7 @@ export const DowntimeDashboard: React.FC = () => {
     tooltip: {
       trigger: 'item',
       formatter: (params: any) => {
-        const monthNames: Record<string, string> = {
-          '07': 'Julio',
-          '08': 'Agosto',
-          '09': 'Septiembre',
-          '10': 'Octubre',
-          '11': 'Noviembre',
-          '12': 'Diciembre'
-        };
+
         return `${params.name}: ${params.value.toLocaleString()} horas`;
       }
     },
