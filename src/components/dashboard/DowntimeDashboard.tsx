@@ -27,128 +27,12 @@ export const DowntimeDashboard: React.FC = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        console.log('🔍 Fetching downtime data...');
+        console.log('🔍 Fetching downtime data from DB...');
         
-        // Try to fetch from API first
-        try {
-          const stats = await downtimeApi.getDowntimeStats('2025-09-01', '2025-12-31');
-          console.log('📊 Downtime data received:', stats);
-          
-          if (stats.totalProblems > 0) {
-            setData(stats);
-            return;
-          }
-        } catch (apiError) {
-          console.warn('⚠️ API returned no data, using sample data');
-        }
+        const stats = await downtimeApi.getDowntimeStats('2025-09-01', '2025-12-31');
+        console.log('📊 Real DB data received:', stats);
         
-        // Use REAL database data
-        const sampleData: DowntimeStats = {
-          totalProblems: 19335,
-          totalHours: 292144.35,
-          downtimePercent: 0, // Will be calculated per month
-          monthlySummary: [
-            {
-              month: '2025-09',
-              problems: 5678,
-              hours: 86723.45,
-              downtimePercent: 11.80,
-              bySeverity: {
-                AVAILABILITY: { count: 1823, hours: 46123.78 },
-                ERROR: { count: 2567, hours: 28456.89 },
-                PERFORMANCE: { count: 1288, hours: 12142.78 }
-              }
-            },
-            {
-              month: '2025-10',
-              problems: 6234,
-              hours: 95123.67,
-              downtimePercent: 12.93,
-              bySeverity: {
-                AVAILABILITY: { count: 1998, hours: 50567.34 },
-                ERROR: { count: 2823, hours: 31234.78 },
-                PERFORMANCE: { count: 1413, hours: 13321.55 }
-              }
-            },
-            {
-              month: '2025-11',
-              problems: 5789,
-              hours: 88456.12,
-              downtimePercent: 12.04,
-              bySeverity: {
-                AVAILABILITY: { count: 1856, hours: 47012.45 },
-                ERROR: { count: 2612, hours: 29012.34 },
-                PERFORMANCE: { count: 1321, hours: 12431.33 }
-              }
-            },
-            {
-              month: '2025-12',
-              problems: 1634,
-              hours: 21841.06,
-              downtimePercent: 2.97,
-              bySeverity: {
-                AVAILABILITY: { count: 523, hours: 11612.89 },
-                ERROR: { count: 734, hours: 7234.56 },
-                PERFORMANCE: { count: 377, hours: 2993.61 }
-              }
-            }
-          ],
-          severityDistribution: {
-            AVAILABILITY: { count: 9834, hours: 247195.88 },
-            ERROR: { count: 13870, hours: 151851.58 },
-            PERFORMANCE: { count: 6988, hours: 65787.29 }
-          },
-            {
-              title: 'Database Connection Pool Exhausted - Primary DB Cluster',
-              severity: 'AVAILABILITY',
-              durationHours: 2847.50,
-              startTime: '2025-10-15T14:30:00-05:00',
-              affectedService: 'postgresql-primary'
-            },
-            {
-              title: 'Memory Leak in Payment Processing Microservice',
-              severity: 'ERROR',
-              durationHours: 2134.25,
-              startTime: '2025-09-22T03:15:00-05:00',
-              affectedService: 'payment-service'
-            },
-            {
-              title: 'High CPU Usage on Worker Node Pool',
-              severity: 'PERFORMANCE',
-              durationHours: 1876.75,
-              startTime: '2025-11-08T18:45:00-05:00',
-              affectedService: 'k8s-worker-pool'
-            },
-            {
-              title: 'Disk Space Critical on Log Aggregation Server',
-              severity: 'AVAILABILITY',
-              durationHours: 1298.80,
-              startTime: '2025-11-25T08:00:00-05:00',
-              affectedService: 'elasticsearch-logs'
-            },
-            {
-              title: 'Network Latency Spike - Multi-Region',
-              severity: 'PERFORMANCE',
-              durationHours: 1156.30,
-              startTime: '2025-10-28T16:20:00-05:00',
-              affectedService: 'cdn-multiregion'
-            },
-            {
-              title: 'Authentication Service Complete Degradation',
-              severity: 'ERROR',
-              durationHours: 1087.90,
-              startTime: '2025-09-05T09:45:00-05:00',
-              affectedService: 'auth0-service'
-            }
-          ]
-        };
-        
-        // Only use sample data if NO data in state or force usage (logic handled above)
-        // Check if we already set data from API
-        if (loading && !data) {
-             setData(sampleData);
-             console.log('📊 Using sample data for demonstration (Filtered Sep-Dec 2025)');
-        }
+        setData(stats);
         
       } catch (err) {
         console.error('❌ Error loading downtime data:', err);
@@ -353,6 +237,7 @@ export const DowntimeDashboard: React.FC = () => {
             <thead>
               <tr className="border-b border-gray-700">
                 <th className="text-left py-3 px-4 text-gray-400 font-semibold">#</th>
+                <th className="text-left py-3 px-4 text-gray-400 font-semibold">ID</th>
                 <th className="text-left py-3 px-4 text-gray-400 font-semibold">Problema</th>
                 <th className="text-left py-3 px-4 text-gray-400 font-semibold">Servicio</th>
                 <th className="text-left py-3 px-4 text-gray-400 font-semibold">Severidad</th>
@@ -364,6 +249,7 @@ export const DowntimeDashboard: React.FC = () => {
               {data.topProblems.map((problem, index) => (
                 <tr key={index} className="border-b border-gray-800 hover:bg-[#252542]">
                   <td className="py-3 px-4 text-gray-300">{index + 1}</td>
+                  <td className="py-3 px-4 text-blue-400 font-mono text-xs">{problem.displayId}</td>
                   <td className="py-3 px-4 text-white max-w-md truncate">{problem.title}</td>
                   <td className="py-3 px-4 text-gray-300">{problem.affectedService}</td>
                   <td className="py-3 px-4">

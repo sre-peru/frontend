@@ -20,6 +20,7 @@ export interface MonthlySummary {
 
 export interface TopProblem {
   title: string;
+  displayId: string;
   severity: string;
   durationHours: number;
   startTime: string;
