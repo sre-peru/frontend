@@ -44,32 +44,10 @@ export const DowntimeDashboard: React.FC = () => {
         
         // Use REAL database data
         const sampleData: DowntimeStats = {
-          totalProblems: 30692,
-          totalHours: 464834.695,
+          totalProblems: 19335,
+          totalHours: 292144.35,
           downtimePercent: 0, // Will be calculated per month
           monthlySummary: [
-            {
-              month: '2025-07',
-              problems: 5234,
-              hours: 79234.12,
-              downtimePercent: 10.78,
-              bySeverity: {
-                AVAILABILITY: { count: 1678, hours: 42156.30 },
-                ERROR: { count: 2345, hours: 25678.45 },
-                PERFORMANCE: { count: 1211, hours: 11399.37 }
-              }
-            },
-            {
-              month: '2025-08',
-              problems: 6123,
-              hours: 93456.23,
-              downtimePercent: 12.71,
-              bySeverity: {
-                AVAILABILITY: { count: 1956, hours: 49723.12 },
-                ERROR: { count: 2789, hours: 30234.56 },
-                PERFORMANCE: { count: 1378, hours: 13498.55 }
-              }
-            },
             {
               month: '2025-09',
               problems: 5678,
@@ -120,7 +98,6 @@ export const DowntimeDashboard: React.FC = () => {
             ERROR: { count: 13870, hours: 151851.58 },
             PERFORMANCE: { count: 6988, hours: 65787.29 }
           },
-          topProblems: [
             {
               title: 'Database Connection Pool Exhausted - Primary DB Cluster',
               severity: 'AVAILABILITY',
@@ -143,20 +120,6 @@ export const DowntimeDashboard: React.FC = () => {
               affectedService: 'k8s-worker-pool'
             },
             {
-              title: 'Redis Cache Cluster Complete Failure',
-              severity: 'AVAILABILITY',
-              durationHours: 1654.10,
-              startTime: '2025-08-03T22:00:00-05:00',
-              affectedService: 'redis-cluster-prod'
-            },
-            {
-              title: 'API Gateway Timeout Errors - Global',
-              severity: 'ERROR',
-              durationHours: 1432.45,
-              startTime: '2025-07-17T11:30:00-05:00',
-              affectedService: 'api-gateway-global'
-            },
-            {
               title: 'Disk Space Critical on Log Aggregation Server',
               severity: 'AVAILABILITY',
               durationHours: 1298.80,
@@ -176,26 +139,16 @@ export const DowntimeDashboard: React.FC = () => {
               durationHours: 1087.90,
               startTime: '2025-09-05T09:45:00-05:00',
               affectedService: 'auth0-service'
-            },
-            {
-              title: 'Load Balancer Health Check Failures - All Zones',
-              severity: 'AVAILABILITY',
-              durationHours: 967.25,
-              startTime: '2025-08-12T14:10:00-05:00',
-              affectedService: 'nginx-lb-cluster'
-            },
-            {
-              title: 'Message Queue Backlog Critical Overflow',
-              severity: 'PERFORMANCE',
-              durationHours: 892.85,
-              startTime: '2025-07-19T20:30:00-05:00',
-              affectedService: 'rabbitmq-prod'
             }
           ]
         };
         
-        setData(sampleData);
-        console.log('📊 Using sample data for demonstration');
+        // Only use sample data if NO data in state or force usage (logic handled above)
+        // Check if we already set data from API
+        if (loading && !data) {
+             setData(sampleData);
+             console.log('📊 Using sample data for demonstration (Filtered Sep-Dec 2025)');
+        }
         
       } catch (err) {
         console.error('❌ Error loading downtime data:', err);
